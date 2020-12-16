@@ -1,39 +1,31 @@
-import React, {useEffect, useState, useRef} from 'react'
+import React, { useEffect, useRef } from 'react'
 import './App.css';
 import io from "socket.io-client"
+import { useDispatch } from 'react-redux'
+import ChatFrame from './components/chat';
+import UserFrame from './components/user';
+import { isMobile } from 'react-device-detect'
 
 function App() {
   const socket = useRef();
-  const [onlineClient, setOnlineClient]= useState([]);
-  const [myName, setMyName]= useState("user_unknown");
+  const dispatch = useDispatch();
   useEffect(() => {
     socket.current = io.connect('https://127.0.0.1:4000/');
-    socket.current.on('username', ({username}) => {
-      setMyName(username);
+    socket.current.on('username', ({ username }) => {
+      dispatch({ type: 'SET_USER_INFO', payload: { username } })
     })
     socket.current.on('clients', (clients) => {
-      setOnlineClient(clients);
+      dispatch({ type: 'SET_FRIENDS', payload: { friends: clients } });
     })
-  }, [])
-  
+    socket.current.on("message_is_coming", (data) => {
+      dispatch({ type: 'PUSH_MESSAGE', payload: data });
+    })
 
+  }, [dispatch])
   return (
-    <div className="App">
-      <header className="App-header">
-        <h4>
-          Hello <code>{myName}!</code>
-        </h4>
-        <p>list online friends:</p>
-        <ul>
-          {
-            onlineClient && Object.entries(onlineClient)?.filter(user => user[0] !== myName)?.map(user => (
-              <li>
-                {user[0]}
-              </li>
-            ))
-          }
-        </ul>
-      </header>
+    <div style={{ background: '#A99985', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <ChatFrame socket={socket} />
+      {!isMobile && <UserFrame />}
     </div>
   );
 }
