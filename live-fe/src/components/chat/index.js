@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { Frame, ChatTab, ActionFrame, ChatContentWrapper, ChatContent } from './index.style'
 import { Divider, Input, Button } from 'antd'
 import Background from './background.png'
@@ -24,9 +24,12 @@ const ChatFrame = ({ socket }) => {
 		const text = e.target.value
 		setCurrMess(text)
 	}
+	console.log("asdadad")
 
+	useMemo(() => {
+		console.log(currMess)
+	}, [currMess])
 	return (
-
 		<Frame style={{ backgroundImage: `url(${Background})` }}>
 			<ChatTab>
 				<Divider orientation='center'>XuanNghiem@hcmus</Divider>
@@ -34,7 +37,7 @@ const ChatFrame = ({ socket }) => {
 			<ChatContentWrapper >
 				<ChatContent>
 					{
-						messages.sort((a, b) => a.time - b.time ? -1 : 1).map((mess, index) => (
+						messages.map((mess, index) => (
 							<Message key={index} time={mess.time} name={mess.username} message={mess.message} />
 						))
 					}

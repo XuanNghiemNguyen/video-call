@@ -5,17 +5,22 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "nodemonConfig": {
-    "ignore": ["live-fe/*"]
+    "ignore": [
+      "live-fe/*"
+    ]
   },
   "author": "XuanNghiemNguyen",
   "license": "ISC",
   "dependencies": {
+    "emmet": "^2.2.1",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "https": "^1.0.0",
+    "nodemon": "^2.0.6",
+    "path": "^0.12.7",
     "socket.io": "^3.0.4",
     "unique-names-generator": "^4.3.1"
   }

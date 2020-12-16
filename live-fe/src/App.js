@@ -10,7 +10,7 @@ function App() {
   const socket = useRef();
   const dispatch = useDispatch();
   useEffect(() => {
-    socket.current = io.connect('https://127.0.0.1:4000/');
+    socket.current = io.connect('/');
     socket.current.on('username', ({ username }) => {
       dispatch({ type: 'SET_USER_INFO', payload: { username } })
     })
