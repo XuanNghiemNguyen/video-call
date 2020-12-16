@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
     socket.on('create_room', () => {
         const _roomName = shortRoomName();
         if (_roomName && !roomNames[_roomName]) {
-            roomNames[_roomName] = [socket?.id];
+            roomNames[_roomName] = [socket.id];
         } else {
             socket.emit("create_room_failed:", { message: "room is existed!" });
         }
